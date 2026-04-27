@@ -8,28 +8,34 @@ public class Employee
     public string Password { get; private set; }
     public int Age { get; private set; }
 
+    //adicionados para a atv de envio de pdf 
+    public string? Photo { get; private set; }
+    public bool IsEmailSent { get; private set; }
+
     private Employee()
     {
     }
 
-    public Employee(string name, string email, string password, int age)
+    public Employee(string name, string email, string password, int age, string? photo)
     {
         Validate(name, email, age, password);
 
-        Id = Guid.NewGuid();
-        Name = name.Trim();
-        Email = email.Trim();
-        Password = password.Trim();
-        Age = age;
+        this.Id = Guid.NewGuid();
+        this.Name = name.Trim();
+        this.Email = email.Trim();
+        this.Password = password;
+        this.Age = age;
+        this.Photo = photo;
+        this.IsEmailSent = false;
     }
 
     public void Update(string name, string email, int age)
     {
         Validate(name, email, age);
 
-        Name = name.Trim();
-        Email = email.Trim();
-        Age = age;
+        this.Name = name.Trim();
+        this.Email = email.Trim();
+        this.Age = age;
     }
 
     private static void Validate(string name, string email, int age, string? password = null)
@@ -53,5 +59,11 @@ public class Employee
         {
             throw new ArgumentException("Employee password cannot be empty.");
         }
+    }
+
+    // Método para o Scheduler usar depois de enviar o e-mail
+    public void MarkAsEmailSent()
+    {
+        this.IsEmailSent = true;
     }
 }
