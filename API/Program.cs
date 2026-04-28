@@ -11,6 +11,12 @@ using MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 using Photo.Services;
 using Microsoft.OpenApi;
 using MinhaApiCQRS.API.Middlewares;
+using QuestPDF.Infrastructure;
+using MinhaApiCQRS.PDF;
+
+
+QuestPDF.Settings.License = LicenseType.Community;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +42,13 @@ builder.Services.AddScoped<GetEmployeesHandler>();
 builder.Services.AddScoped<UpdateEmployeeHandler>();
 builder.Services.AddScoped<DeleteEmployeeHandler>();
 
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(MinhaApiCQRS.Application.Queries.GetEmployeePdfQuery).Assembly);
+});
+
+builder.Services.AddScoped<IPdfService, PdfGenerator>();
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -48,4 +61,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+
+
 app.Run();
