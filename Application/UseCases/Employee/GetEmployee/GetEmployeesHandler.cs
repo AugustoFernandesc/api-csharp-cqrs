@@ -1,20 +1,23 @@
-
-namespace MinhaApiCQRS.Application.UseCases.GetEmployee;
-
 using MinhaApiCQRS.Application.Interfaces;
-using MinhaApiCQRS.Domain.Entities;
+using MinhaApiCQRS.Application.ViewModel;
+using EmployeeEntity = MinhaApiCQRS.Domain.Entities.Employee;
 
-public class GetEmployeeHandler
+namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployee;
+
+public class GetEmployeesHandler
 {
-    private readonly IEmployeeRepository _repository;
+    private readonly IUnitOfWork _uow;
 
-    public GetEmployeeHandler(IEmployeeRepository repository)
+    public GetEmployeesHandler(IUnitOfWork uow)
     {
-        _repository = repository;
+        _uow = uow;
     }
 
-    public async Task<IReadOnlyList<Employee>> Handle()
+    public async Task<IReadOnlyList<EmployeeDto>> HandleAsync()
     {
-        return await _repository.GetAllAsync();
+        var employees = await _uow.Repository<EmployeeEntity>().GetAllAsync();
+        return employees
+            .Select(employee => new EmployeeDto(employee.Id, employee.Name, employee.Email, employee.Age, employee.Photo))
+            .ToList();
     }
 }

@@ -1,24 +1,26 @@
-using MinhaApiCQRS.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using MinhaApiCQRS.Domain.Interfaces;
 using MinhaApiCQRS.Domain.Entities;
-using MinhaApiCQRS.Infrastructure.Data.ConnectionContext;
-using MinhaApiCQRS.Infrastructure.Repositories.GenericRepository;
+using MinhaApiCQRS.Infrastructure.Data;
 
-namespace MinhaApi.Infrastructure.Repositories;
+namespace MinhaApiCQRS.Infrastructure.Repositories;
 
-// ESSE REPOSITÓRIO É O "SETOR DE FUNCIONÁRIOS" DO BANCO:
-// Ele herda as operações básicas do GenericRepository e pode ter filtros próprios.
 public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
 {
     public EmployeeRepository(ConnectionContext context) : base(context)
     {
     }
 
-    public List<Employee> GetEmployeesPhoto()
+    public async Task<Employee?> GetByEmailAsync(string email) =>
+        await _context.Employees.FirstOrDefaultAsync(employee => employee.Email == email);
+
+    public async Task<bool> IsEmailAllReadyInUse(string email, Guid? id = null)
     {
-        // Aqui fica uma consulta especializada da entidade Employee.
-        // Hoje ela busca funcionários sem foto cadastrada.
-        return _context.Employees
-            .Where(e => string.IsNullOrEmpty(e.Photo))
-            .ToList();
+        if (id.HasValue)
+        {
+            return await _context.Employees.AnyAsync(e => e.Email == email && e.Id != id.Value);
+        }
+
+        return await _context.Employees.AnyAsync(e => e.Email == email);
     }
 }

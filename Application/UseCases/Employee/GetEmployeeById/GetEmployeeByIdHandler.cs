@@ -1,17 +1,20 @@
 using MinhaApiCQRS.Application.Interfaces;
+using MinhaApiCQRS.Application.ViewModel;
+
+namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployeeById;
 
 public class GetEmployeeByIdHandler
 {
-    private readonly IEmployeeRepository _repository;
+    private readonly IUnitOfWork _uow;
 
-    public GetEmployeeByIdHandler(IEmployeeRepository repository)
+    public GetEmployeeByIdHandler(IUnitOfWork uow)
     {
-        _repository = repository;
+        _uow = uow;
     }
 
     public async Task<EmployeeDto> HandleAsync(Guid id)
     {
-        var employee = await _repository.GetById(id);
+        var employee = await _uow.EmployeeRepository.GetByIdAsync(id);
 
         if (employee == null)
         {

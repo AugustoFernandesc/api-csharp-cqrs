@@ -1,29 +1,27 @@
 using MinhaApiCQRS.Application.Interfaces;
-using MinhaApiCQRS.Domain.Entities;
+
+namespace MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 
 public class UpdateEmployeeHandler
 {
-    private readonly IEmployeeRepository _repository;
     private readonly IUnitOfWork _uow;
 
-    public UpdateEmployeeHandler(IEmployeeRepository repository, IUnitOfWork uow)
+    public UpdateEmployeeHandler(IUnitOfWork uow)
     {
-        _repository = repository;
         _uow = uow;
     }
 
-    public async Task Handle(Guid Id, EmployeeDto dto)
+    public async Task HandleAsync(UpdateEmployeeCommand command)
     {
-        var employee = await _repository.GetById(Id);
+        var employee = await _uow.EmployeeRepository.GetByIdAsync(command.Id);
         if (employee == null)
         {
             throw new Exception("Funcionario nao encontrado para atualizacaoo.");
         }
 
-        employee.Update(dto.Name, dto.Email, dto.Age);
+        employee.Update(command.Name, command.Email, command.Age);
 
-        await _repository.Update(employee);
-        await _uow.Commit();
+        _uow.EmployeeRepository.Update(employee);
+        await _uow.CommitAsync();
     }
-
 }

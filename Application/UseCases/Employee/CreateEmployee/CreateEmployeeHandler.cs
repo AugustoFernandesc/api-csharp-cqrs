@@ -1,42 +1,40 @@
 using MinhaApiCQRS.Application.Interfaces;
-using MinhaApiCQRS.Domain.Entities;
+using Photo.Services;
+using EmployeeEntity = MinhaApiCQRS.Domain.Entities.Employee;
 
-namespace MinhaApiCQRS.Application.UseCases.CreateEmployee;
+namespace MinhaApiCQRS.Application.UseCases.Employee.CreateEmployee;
 
 public class CreateEmployeeHandler
 {
-    private readonly IEmployeeRepository _repository;
+    private readonly IPhotoService _photoService;
+    private readonly IUnitOfWork _uow;
 
-    public CreateEmployeeHandler(IEmployeeRepository repository)
+    public CreateEmployeeHandler(IPhotoService photoService, IUnitOfWork uow)
     {
-        _repository = repository;
+        _photoService = photoService;
+        _uow = uow;
     }
 
-    public async Task<Guid> Handle(CreateEmployeeCommand command)
+    public async Task<Guid> HandleAsync(CreateEmployeeCommand command)
     {
+
+        if (await _uow.EmployeeRepository.IsEmailAllReadyInUse(command.Email))
+        {
+            throw new Exception("Ja existe um funcionario com este email.");
+        }
 
         string? filePath = null;
 
         if (command.Photo != null)
         {
-
-            if (!Directory.Exists("Storage"))
-            {
-                Directory.CreateDirectory("Storage");
-            }
-
-            filePath = Path.Combine("Storage", command.Photo.FileName);
-
-            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await command.Photo.CopyToAsync(fileStream);
-            }
+            filePath = await _photoService.UploadAsync(command.Photo);
         }
 
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(command.Password);
 
-        var employee = new Employee(command.Name, command.Email, passwordHash, command.Age, filePath);
-        await _repository.AddAsync(employee);
+        var employee = new EmployeeEntity(command.Name, command.Email, passwordHash, command.Age, filePath);
+        await _uow.EmployeeRepository.AddAsync(employee);
+        await _uow.CommitAsync();
         return employee.Id;
     }
 }

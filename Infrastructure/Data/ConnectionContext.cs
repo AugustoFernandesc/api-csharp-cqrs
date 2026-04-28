@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MinhaApiCQRS.Domain.Entities;
 
-namespace MinhaApiCQRS.Infrastructure.Data.ConnectionContext;
+namespace MinhaApiCQRS.Infrastructure.Data;
 
 public class ConnectionContext : DbContext
 {

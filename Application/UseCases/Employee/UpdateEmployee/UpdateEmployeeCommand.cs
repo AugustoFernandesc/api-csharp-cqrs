@@ -1,5 +1,3 @@
+namespace MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 
-namespace MinhaApiCQRS.Application.UseCases;
-
-
-public record UpdateEmployeeCommand(Guid Id, EmployeeDto employeeDto);
+public record UpdateEmployeeCommand(Guid Id, string Name, string Email, int Age);

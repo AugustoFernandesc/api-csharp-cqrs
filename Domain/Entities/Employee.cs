@@ -3,9 +3,9 @@ namespace MinhaApiCQRS.Domain.Entities;
 public class Employee
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+    public string Name { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
+    public string Password { get; private set; } = null!;
     public int Age { get; private set; }
 
     //adicionados para a atv de envio de pdf 
