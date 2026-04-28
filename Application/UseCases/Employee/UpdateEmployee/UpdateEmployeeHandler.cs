@@ -1,8 +1,9 @@
+using MediatR;
 using MinhaApiCQRS.Application.Interfaces;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 
-public class UpdateEmployeeHandler
+public class UpdateEmployeeHandler : IRequestHandler<UpdateEmployeeCommand>
 {
     private readonly IUnitOfWork _uow;
 
@@ -11,7 +12,7 @@ public class UpdateEmployeeHandler
         _uow = uow;
     }
 
-    public async Task HandleAsync(UpdateEmployeeCommand command)
+    public async Task Handle(UpdateEmployeeCommand command, CancellationToken cancellationToken)
     {
         var employee = await _uow.EmployeeRepository.GetByIdAsync(command.Id);
         if (employee == null)

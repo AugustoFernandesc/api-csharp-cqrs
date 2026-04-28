@@ -1,9 +1,10 @@
+using MediatR;
 using MinhaApiCQRS.Application.Interfaces;
 using MinhaApiCQRS.Application.ViewModel;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployeeById;
 
-public class GetEmployeeByIdHandler
+public class GetEmployeeByIdHandler : IRequestHandler<GetEmployeeByIdQuery, EmployeeDto>
 {
     private readonly IUnitOfWork _uow;
 
@@ -12,9 +13,9 @@ public class GetEmployeeByIdHandler
         _uow = uow;
     }
 
-    public async Task<EmployeeDto> HandleAsync(Guid id)
+    public async Task<EmployeeDto> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {
-        var employee = await _uow.EmployeeRepository.GetByIdAsync(id);
+        var employee = await _uow.EmployeeRepository.GetByIdAsync(request.Id);
 
         if (employee == null)
         {

@@ -21,6 +21,7 @@ public class Employee
     public Employee(string name, string email, string password, int age, string? photo)
     {
         Validate(name, email, age, password);
+        ChangeEmail(email);
 
         this.Id = Guid.NewGuid();
         this.Name = name.Trim();
@@ -34,6 +35,7 @@ public class Employee
     public void Update(string name, string email, int age)
     {
         Validate(name, email, age);
+        ChangeEmail(email);
 
         this.Name = name.Trim();
         this.Email = email.Trim();
@@ -52,15 +54,23 @@ public class Employee
             throw new InvalidEmployeeException("Employee age cannot be negative.");
         }
 
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new InvalidEmployeeException("Employee email cannot be empty.");
-        }
-
         if (password != null && string.IsNullOrWhiteSpace(password))
         {
             throw new InvalidEmployeeException("Employee password cannot be empty.");
         }
+    }
+
+    public void ChangeEmail(string email)
+    {
+
+        if (string.IsNullOrWhiteSpace(email))
+            throw new InvalidEmployeeException("Employee email cannot be empty.");
+
+
+        if (!email.Contains("@"))
+            throw new InvalidEmployeeException("Email inválido");
+
+        Email = email;
     }
 
     // Método para o Scheduler usar depois de enviar o e-mail

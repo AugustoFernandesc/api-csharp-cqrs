@@ -1,10 +1,10 @@
-using Application.UseCases.Employee.GetEmployeePhoto;
+using MediatR;
 using MinhaApiCQRS.Application.Interfaces;
 using Photo.Services;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployeePhoto;
 
-public class GetEmployeePhotoHandler
+public class GetEmployeePhotoHandler : IRequestHandler<GetEmployeePhotoQuery, byte[]>
 {
     private readonly IUnitOfWork _uow;
     private readonly IPhotoService _photoService;
@@ -15,9 +15,9 @@ public class GetEmployeePhotoHandler
         _photoService = photoService;
     }
 
-    public async Task<byte[]> HandleAsync(GetEmployeePhotoQuery getEmployeePhotoQuery)
+    public async Task<byte[]> Handle(GetEmployeePhotoQuery request, CancellationToken cancellationToken)
     {
-        var employee = await _uow.EmployeeRepository.GetByIdAsync(getEmployeePhotoQuery.Id);
+        var employee = await _uow.EmployeeRepository.GetByIdAsync(request.Id);
 
         if (employee == null || string.IsNullOrEmpty(employee.Photo))
         {

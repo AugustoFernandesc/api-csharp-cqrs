@@ -1,10 +1,11 @@
+using MediatR;
 using MinhaApiCQRS.Application.Interfaces;
 using Photo.Services;
 using EmployeeEntity = MinhaApiCQRS.Domain.Entities.Employee;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.CreateEmployee;
 
-public class CreateEmployeeHandler
+public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, Guid>
 {
     private readonly IPhotoService _photoService;
     private readonly IUnitOfWork _uow;
@@ -15,9 +16,8 @@ public class CreateEmployeeHandler
         _uow = uow;
     }
 
-    public async Task<Guid> HandleAsync(CreateEmployeeCommand command)
+    public async Task<Guid> Handle(CreateEmployeeCommand command, CancellationToken cancellationToken)
     {
-
         if (await _uow.EmployeeRepository.IsEmailAllReadyInUse(command.Email))
         {
             throw new Exception("Ja existe um funcionario com este email.");

@@ -1,8 +1,9 @@
+using MediatR;
 using MinhaApiCQRS.Application.Interfaces;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.DeleteEmployee;
 
-public class DeleteEmployeeHandler
+public class DeleteEmployeeHandler : IRequestHandler<DeleteEmployeeCommand>
 {
     private readonly IUnitOfWork _uow;
 
@@ -11,9 +12,9 @@ public class DeleteEmployeeHandler
         _uow = uow;
     }
 
-    public async Task HandleAsync(Guid id)
+    public async Task Handle(DeleteEmployeeCommand command, CancellationToken cancellationToken)
     {
-        var employee = await _uow.EmployeeRepository.GetByIdAsync(id);
+        var employee = await _uow.EmployeeRepository.GetByIdAsync(command.Id);
         if (employee == null)
         {
             throw new Exception("Funcionario nao encontrado");

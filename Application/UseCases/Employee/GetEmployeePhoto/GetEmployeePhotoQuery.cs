@@ -1,3 +1,5 @@
-namespace Application.UseCases.Employee.GetEmployeePhoto;
+using MediatR;
 
-public record GetEmployeePhotoQuery(Guid Id);
+namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployeePhoto;
+
+public record GetEmployeePhotoQuery(Guid Id) : IRequest<byte[]>;

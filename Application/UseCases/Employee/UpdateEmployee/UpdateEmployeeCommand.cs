@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 
-public record UpdateEmployeeCommand(Guid Id, string Name, string Email, int Age);
+public record UpdateEmployeeCommand(Guid Id, string Name, string Email, int Age) : IRequest;
