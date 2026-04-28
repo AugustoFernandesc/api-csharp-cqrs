@@ -1,3 +1,4 @@
+using Application.UseCases.Employee.GetEmployeePhoto;
 using Microsoft.AspNetCore.Mvc;
 using MinhaApiCQRS.Application.UseCases.Employee.CreateEmployee;
 using MinhaApiCQRS.Application.UseCases.Employee.DeleteEmployee;
@@ -26,10 +27,10 @@ public class EmployeeController : ControllerBase
     // 2. GET PHOTO
     [HttpGet("{id:guid}/photo")]
     public async Task<IActionResult> GetPhoto(
-        Guid id,
+        [FromForm] GetEmployeePhotoQuery getEmployeePhotoQuery,
         [FromServices] GetEmployeePhotoHandler handler)
     {
-        var imageBytes = await handler.HandleAsync(id);
+        var imageBytes = await handler.HandleAsync(getEmployeePhotoQuery);
         return File(imageBytes, "image/jpeg");
     }
 

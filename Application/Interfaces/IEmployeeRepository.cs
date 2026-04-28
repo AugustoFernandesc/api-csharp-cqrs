@@ -1,6 +1,6 @@
 using MinhaApiCQRS.Domain.Entities;
 
-namespace MinhaApiCQRS.Domain.Interfaces;
+namespace MinhaApiCQRS.Application.Interfaces;
 
 public interface IEmployeeRepository : IGenericRepository<Employee>
 {

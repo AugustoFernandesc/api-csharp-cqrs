@@ -1,4 +1,4 @@
-namespace Domain.Exceptions;
+namespace MinhaApiCQRS.Domain.Exceptions;
 
 public class InvalidEmployeeException(string message) : Exception(message)
 {

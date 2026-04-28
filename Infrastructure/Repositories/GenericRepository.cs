@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MinhaApiCQRS.Domain.Interfaces;
+using MinhaApiCQRS.Application.Interfaces;
 using MinhaApiCQRS.Infrastructure.Data;
 
 namespace MinhaApiCQRS.Infrastructure.Repositories;

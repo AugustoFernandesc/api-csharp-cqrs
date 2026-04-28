@@ -1,5 +1,4 @@
 using MinhaApiCQRS.Application.Interfaces;
-using MinhaApiCQRS.Domain.Interfaces;
 using MinhaApiCQRS.Infrastructure.Data;
 
 namespace MinhaApiCQRS.Infrastructure.Repositories;

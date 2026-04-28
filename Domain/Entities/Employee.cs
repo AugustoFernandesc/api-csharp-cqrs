@@ -1,3 +1,5 @@
+using MinhaApiCQRS.Domain.Exceptions;
+
 namespace MinhaApiCQRS.Domain.Entities;
 
 public class Employee
@@ -42,22 +44,22 @@ public class Employee
     {
         if (string.IsNullOrWhiteSpace(name) || name.Trim().Length < 3)
         {
-            throw new ArgumentException("Employee name must contain at least 3 characters.");
+            throw new InvalidEmployeeException("Employee name must contain at least 3 characters.");
         }
 
         if (age < 0)
         {
-            throw new ArgumentException("Employee age cannot be negative.");
+            throw new InvalidEmployeeException("Employee age cannot be negative.");
         }
 
         if (string.IsNullOrWhiteSpace(email))
         {
-            throw new ArgumentException("Employee email cannot be empty.");
+            throw new InvalidEmployeeException("Employee email cannot be empty.");
         }
 
         if (password != null && string.IsNullOrWhiteSpace(password))
         {
-            throw new ArgumentException("Employee password cannot be empty.");
+            throw new InvalidEmployeeException("Employee password cannot be empty.");
         }
     }
 

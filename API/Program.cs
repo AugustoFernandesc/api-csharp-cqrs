@@ -9,12 +9,18 @@ using MinhaApiCQRS.Application.UseCases.Employee.GetEmployeeById;
 using MinhaApiCQRS.Application.UseCases.Employee.GetEmployeePhoto;
 using MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
 using Photo.Services;
-using MinhaApiCQRS.Domain.Interfaces;
+using Microsoft.OpenApi;
+using MinhaApiCQRS.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API CQRS", Version = "v1" });
+});
 
 builder.Services.AddDbContext<ConnectionContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -32,9 +38,12 @@ builder.Services.AddScoped<DeleteEmployeeHandler>();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

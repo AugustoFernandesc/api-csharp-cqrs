@@ -1,4 +1,3 @@
-using MinhaApiCQRS.Domain.Interfaces;
 
 namespace MinhaApiCQRS.Application.Interfaces;
 
