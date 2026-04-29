@@ -2,6 +2,7 @@
   <Project Path="API/API.csproj" />
   <Project Path="Application/Application.csproj" />
   <Project Path="Domain/Domain.csproj" />
+  <Project Path="Email/Email.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" />
   <Project Path="PDF/PDF.csproj" />
   <Project Path="Photo/Photo.csproj" />

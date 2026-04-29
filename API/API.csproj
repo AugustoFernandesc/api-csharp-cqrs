@@ -19,5 +19,6 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\PDF\PDF.csproj" />
+    <ProjectReference Include="..\Email\Email.csproj" />
   </ItemGroup>
 </Project>

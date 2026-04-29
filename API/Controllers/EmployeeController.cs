@@ -7,6 +7,8 @@ using MinhaApiCQRS.Application.UseCases.Employee.DeleteEmployee;
 using MinhaApiCQRS.Application.UseCases.Employee.GetEmployee;
 using MinhaApiCQRS.Application.UseCases.Employee.GetEmployeeById;
 using MinhaApiCQRS.Application.UseCases.Employee.UpdateEmployee;
+using Application.Interfaces;
+using MinhaApiCQRS.Application.Interfaces;
 
 namespace MinhaApiCQRS.API.Controllers;
 
@@ -15,9 +17,13 @@ namespace MinhaApiCQRS.API.Controllers;
 public class EmployeeController : ControllerBase
 {
     private readonly IMediator _mediator;
+    // private readonly IPdfService _pdfService;
+    // private readonly IEmailService _emailService;
     public EmployeeController(IMediator mediator)
     {
         _mediator = mediator;
+        // _pdfService = pdfService;
+        // _emailService = emailService;
     }
 
     // 1. CREATE
@@ -75,4 +81,17 @@ public class EmployeeController : ControllerBase
 
         return File(pdfBytes, "application/pdf", $"funcionario_{id}.pdf");
     }
+
 }
+
+//     //teste de envio de email
+//     [HttpPost("{id}/send-email")]
+//     public async Task<IActionResult> SendMail(Guid id)
+//     {
+//         var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
+//         var pdfBytes = _pdfService.GenerateEmployeePdf(employee.Name, employee.Age, employee.Photo);
+//         await _emailService.SendEmailWithAttachmentAsync(employee.Email, "Relatório de Teste MediatR", $"Olá {employee.Name}, este é um teste do sistema de automação.", pdfBytes, "RelatorioFuncionario.pdf");
+//         return Ok($"E-mail enviado com sucesso para {employee.Email}");
+
+//     }
+// 

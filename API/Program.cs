@@ -13,6 +13,8 @@ using Microsoft.OpenApi;
 using MinhaApiCQRS.API.Middlewares;
 using QuestPDF.Infrastructure;
 using MinhaApiCQRS.PDF;
+using Application.Interfaces;
+using MinhaApiCQRS.Email;
 
 
 QuestPDF.Settings.License = LicenseType.Community;
@@ -41,6 +43,7 @@ builder.Services.AddScoped<GetEmployeeByIdHandler>();
 builder.Services.AddScoped<GetEmployeesHandler>();
 builder.Services.AddScoped<UpdateEmployeeHandler>();
 builder.Services.AddScoped<DeleteEmployeeHandler>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddMediatR(cfg =>
 {
