@@ -25,7 +25,7 @@ public class PdfGenerator : IPdfService
 
                     if (!string.IsNullOrEmpty(photo) && File.Exists(photo))
                     {
-                        col.Item().PaddingTop(10).Image(photo);
+                        col.Item().PaddingTop(10).MaxWidth(200).MaxHeight(200).Image(photo).FitArea();
                     }
                 });
             });

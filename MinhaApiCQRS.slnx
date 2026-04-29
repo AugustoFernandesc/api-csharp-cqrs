@@ -6,4 +6,5 @@
   <Project Path="Infrastructure/Infrastructure.csproj" />
   <Project Path="PDF/PDF.csproj" />
   <Project Path="Photo/Photo.csproj" />
+  <Project Path="Scheduler/Scheduler.csproj" />
 </Solution>

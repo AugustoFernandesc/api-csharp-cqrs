@@ -20,5 +20,6 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\PDF\PDF.csproj" />
     <ProjectReference Include="..\Email\Email.csproj" />
+    <ProjectReference Include="..\Scheduler\Scheduler.csproj" />
   </ItemGroup>
 </Project>

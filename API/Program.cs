@@ -15,10 +15,11 @@ using QuestPDF.Infrastructure;
 using MinhaApiCQRS.PDF;
 using Application.Interfaces;
 using MinhaApiCQRS.Email;
+using Scheduler;
 
 
 QuestPDF.Settings.License = LicenseType.Community;
-
+QuestPDF.Settings.EnableDebugging = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ builder.Services.AddScoped<GetEmployeesHandler>();
 builder.Services.AddScoped<UpdateEmployeeHandler>();
 builder.Services.AddScoped<DeleteEmployeeHandler>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddHostedService<EmployeeReportWorker>();
 
 builder.Services.AddMediatR(cfg =>
 {
