@@ -29,6 +29,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API CQRS", Version = "v1" });
+    c.DescribeAllParametersInCamelCase();
 });
 
 builder.Services.AddDbContext<ConnectionContext>(options =>
@@ -37,6 +38,7 @@ builder.Services.AddDbContext<ConnectionContext>(options =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddScoped(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>));
 
 builder.Services.AddScoped<CreateEmployeeHandler>();
 builder.Services.AddScoped<GetEmployeePhotoHandler>();
@@ -63,6 +65,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();

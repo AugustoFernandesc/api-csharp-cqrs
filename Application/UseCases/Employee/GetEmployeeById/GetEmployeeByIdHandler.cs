@@ -26,8 +26,7 @@ public class GetEmployeeByIdHandler : IRequestHandler<GetEmployeeByIdQuery, Empl
             employee.Id,
             employee.Name,
             employee.Email,
-            employee.Age,
-            employee.Photo
+            employee.Age
         );
     }
 }

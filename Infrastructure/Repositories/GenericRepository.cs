@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MinhaApiCQRS.Application.Interfaces;
 using MinhaApiCQRS.Infrastructure.Data;
+using Shared.Pagination;
 
 namespace MinhaApiCQRS.Infrastructure.Repositories;
 
@@ -25,4 +26,22 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public void Update(T entity) => _context.Set<T>().Update(entity);
 
     public void Delete(T entity) => _context.Set<T>().Remove(entity);
+
+    public async Task<PagedResult<T>> PaginateQueryAsync(IQueryable<T> query, PaginationParams paginationParams)
+    {
+        var totalRecords = await query.CountAsync();
+
+        var items = await query
+        .Skip((paginationParams.Page - 1) * paginationParams.Limit)
+        .Take(paginationParams.Limit)
+        .ToListAsync();
+
+        return new PagedResult<T>
+        {
+            Data = items,
+            TotalRecords = totalRecords,
+            CurrentPage = paginationParams.Page,
+            PageSize = paginationParams.Limit
+        };
+    }
 }

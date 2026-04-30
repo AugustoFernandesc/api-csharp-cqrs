@@ -62,6 +62,7 @@ public class EmployeeReportWorker : BackgroundService
                     }
                 }
             }
+
             catch (Exception ex)
             {
                 _logger.LogError("Erro no processamento do Scheduler: {error}", ex.Message);

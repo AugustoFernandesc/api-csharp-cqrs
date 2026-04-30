@@ -1,6 +1,10 @@
 using MediatR;
 using MinhaApiCQRS.Application.ViewModel;
+using Shared.Pagination;
+using EmployeeEntity = MinhaApiCQRS.Domain.Entities.Employee;
 
 namespace MinhaApiCQRS.Application.UseCases.Employee.GetEmployee;
 
-public record GetEmployeesQuery() : IRequest<IReadOnlyList<EmployeeDto>>;
+public class GetEmployeesQuery : PaginationParams, IRequest<PagedResult<EmployeeDto>>
+{
+}

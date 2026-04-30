@@ -52,10 +52,10 @@ public class EmployeeController : ControllerBase
 
     // 4. LIST ALL
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] GetEmployeesQuery query)
     {
-        var employees = await _mediator.Send(new GetEmployeesQuery());
-        return Ok(employees);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 
     // 5. UPDATE

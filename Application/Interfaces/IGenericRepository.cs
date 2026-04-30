@@ -1,3 +1,5 @@
+using Shared.Pagination;
+
 namespace MinhaApiCQRS.Application.Interfaces;
 
 public interface IGenericRepository<T> where T : class

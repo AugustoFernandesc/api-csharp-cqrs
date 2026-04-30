@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MinhaApiCQRS.Application.Interfaces;
 using MinhaApiCQRS.Domain.Entities;
 using MinhaApiCQRS.Infrastructure.Data;
+using Shared.Pagination;
 
 namespace MinhaApiCQRS.Infrastructure.Repositories;
 
@@ -23,4 +24,5 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployeeReposito
 
         return await _context.Employees.AnyAsync(e => e.Email == email);
     }
+
 }

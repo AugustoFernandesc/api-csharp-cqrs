@@ -1,4 +1,5 @@
 using MinhaApiCQRS.Domain.Entities;
+using Shared.Pagination;
 
 namespace MinhaApiCQRS.Application.Interfaces;
 

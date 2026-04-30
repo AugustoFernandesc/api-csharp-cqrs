@@ -21,5 +21,6 @@
     <ProjectReference Include="..\PDF\PDF.csproj" />
     <ProjectReference Include="..\Email\Email.csproj" />
     <ProjectReference Include="..\Scheduler\Scheduler.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 </Project>
