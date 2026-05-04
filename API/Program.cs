@@ -16,6 +16,7 @@ using MinhaApiCQRS.PDF;
 using Application.Interfaces;
 using MinhaApiCQRS.Email;
 using Scheduler;
+using Email;
 
 
 QuestPDF.Settings.License = LicenseType.Community;
@@ -46,9 +47,19 @@ builder.Services.AddScoped<GetEmployeeByIdHandler>();
 builder.Services.AddScoped<GetEmployeesHandler>();
 builder.Services.AddScoped<UpdateEmployeeHandler>();
 builder.Services.AddScoped<DeleteEmployeeHandler>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddHostedService<EmployeeReportWorker>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -69,8 +80,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("ReactApp");
+
+app.UseAuthorization();
+
 app.MapControllers();
-
-
 
 app.Run();

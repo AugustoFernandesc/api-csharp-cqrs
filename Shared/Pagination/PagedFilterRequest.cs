@@ -2,14 +2,15 @@ namespace Shared.Pagination;
 
 public class PagedFilterRequest
 {
-    public string Column { get; private set; } = string.Empty;
-    public OperatorType Operator { get; private set; }
-    public object Value { get; private set; } = null!;
-    public DataType DataType { get; private set; }
+    public string Column { get; set; } = string.Empty;
+    public OperatorType Operator { get; set; }
+    public string? Value { get; set; }
+    public DataType DataType { get; set; }
 
-    private PagedFilterRequest() { }
+    // Construtor e setters publicos permitem que o model binder monte Filters vindos da query string.
+    public PagedFilterRequest() { }
 
-    public static PagedFilterRequest Create(string column, OperatorType operatorType, object value, DataType dataType)
+    public static PagedFilterRequest Create(string column, OperatorType operatorType, string? value, DataType dataType)
     {
         return new PagedFilterRequest
         {
